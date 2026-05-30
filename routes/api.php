@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('customer')->name('customer.')->group(function () {
 
-    // Public
+    // Public Auth APIs
     Route::post('register',        [AuthController::class, 'register'])->name('register');
     Route::post('verify-otp',      [AuthController::class, 'verifyOtp'])->name('verify-otp');
     Route::post('resend-otp',      [AuthController::class, 'resendOtp'])->name('resend-otp');
