@@ -35,21 +35,21 @@ class AuthController extends Controller
             $otp = $this->generateOtp();
 
             $customer = Customer::create([
-                'full_name'                    => $request->full_name,
-                'email'                        => $request->email,
-                'phone_number'                 => $request->phone_number,
-                'country_code'                 => $request->country_code,
-                'password'                     => $request->password,
-                'verification_code'            => $otp,
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'country_code' => $request->country_code,
+                'password' => $request->password,
+                'verification_code' => $otp,
                 'verification_code_expires_at' => Carbon::now()->addMinutes(20),
             ]);
 
             $country = Country::find($request->country_code);
 
             Wallet::create([
-                'customer_id'   => $customer->id,
+                'customer_id' => $customer->id,
                 'currency_code' => $country->currency_code,
-                'balance'       => 0.00,
+                'balance' => 0.00,
             ]);
 
             try {
@@ -99,8 +99,8 @@ class AuthController extends Controller
             }
 
             $customer->update([
-                'email_verified_at'            => Carbon::now(),
-                'verification_code'            => null,
+                'email_verified_at' => Carbon::now(),
+                'verification_code' => null,
                 'verification_code_expires_at' => null,
             ]);
 
@@ -151,7 +151,7 @@ class AuthController extends Controller
             $otp = $this->generateOtp();
 
             $customer->update([
-                'verification_code'            => $otp,
+                'verification_code' => $otp,
                 'verification_code_expires_at' => Carbon::now()->addMinutes(20),
             ]);
 
@@ -200,8 +200,8 @@ class AuthController extends Controller
         $token = $customer->createToken('customer')->plainTextToken;
 
         return response()->json([
-            'message'  => 'Login successful.',
-            'token'    => $token,
+            'message' => 'Login successful.',
+            'token' => $token,
             'customer' => new CustomerResource($customer->load('country')),
         ]);
     }
