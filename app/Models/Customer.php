@@ -18,6 +18,8 @@ class Customer extends Authenticatable
         'full_name',
         'email',
         'phone_number',
+        'verification_code',
+        'verification_code_expires_at',
         'password',
     ];
 
@@ -27,8 +29,9 @@ class Customer extends Authenticatable
     ];
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password'          => 'hashed',
+        'email_verified_at'             => 'datetime',
+        'verification_code_expires_at'  => 'datetime',
+        'password'                      => 'hashed',
     ];
 
     public function country(): BelongsTo
