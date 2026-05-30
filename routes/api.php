@@ -6,7 +6,7 @@ use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\Customer\TransactionController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('customer')->name('customer.')->group(function () {
+Route::name('customer.')->group(function () {
 
     // Public Auth APIs
     Route::post('register',        [AuthController::class, 'register'])->name('register');
