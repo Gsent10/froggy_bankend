@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->string('code', 3)->primary();
             $table->string('name');
-            $table->string('currency_code', 3);
+            $table->string('currency_code', 3)->unique();
             $table->string('currency_symbol', 10);
             $table->timestamps();
         });
