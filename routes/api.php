@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Customer\AuthController;
+use App\Http\Controllers\Customer\ActivityController;
+use App\Http\Controllers\Customer\DashboardController;
+use App\Http\Controllers\Customer\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('customer')->name('customer.')->group(function () {
@@ -14,7 +17,19 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
     // Protected
     Route::middleware('auth:sanctum')->group(function () {
+        // Auth
         Route::post('reset-password',  [AuthController::class, 'resetPassword'])->name('reset-password');
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+        // Dashboard
+        Route::get('/dashboard',         [DashboardController::class, 'index']);
+        Route::get('/dashboard/wallets', [DashboardController::class, 'wallets']);
+
+        // Wallet activity
+        Route::get('/wallet/activity', [ActivityController::class, 'index']);
+
+        // Transactions
+        Route::get('/wallet/transactions', [TransactionController::class, 'index']);
+        Route::post('/wallet/topup',       [TransactionController::class, 'topUp']);
     });
 });
