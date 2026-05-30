@@ -268,8 +268,7 @@ class AuthController extends Controller
         DB::beginTransaction();
         try {
             $customer_id = Auth::user()->id;
-            $customer = Customer::where('id', $customer_id)->where('email', $request->email)
-                ->first();
+            $customer = Customer::where('id', $customer_id)->first();
 
             if (! $customer) {
                 return response()->json(['message' => 'Account not found.'], 404);
