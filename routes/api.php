@@ -4,6 +4,7 @@ use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\Customer\ActivityController;
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\Customer\TransactionController;
+use App\Http\Controllers\Customer\WalletController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('customer.')->group(function () {
@@ -25,8 +26,12 @@ Route::name('customer.')->group(function () {
         Route::get('/dashboard',         [DashboardController::class, 'index']);
         Route::get('/dashboard/wallets', [DashboardController::class, 'wallets']);
 
-        // Wallet activity
-        Route::get('/wallet/activity', [ActivityController::class, 'index']);
+        Route::prefix('wallets')->group(function () {
+            Route::get('/', [WalletController::class, 'index']);
+            Route::post('/', [WalletController::class, 'create']);
+            Route::post('/activity', [ActivityController::class, 'index']);
+            Route::get('/{id}', [WalletController::class, 'show']);
+        });
 
         // Transactions
         Route::get('/wallet/transactions', [TransactionController::class, 'index']);
