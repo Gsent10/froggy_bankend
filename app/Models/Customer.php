@@ -74,10 +74,10 @@ class Customer extends Authenticatable
         return $this->hasManyThrough(
             Transaction::class,
             Wallet::class,
-            'customer_id',   // FK on wallets
-            'wallet_id',     // FK on transactions
-            'id',            // PK on customers
-            'id',            // PK on wallets
+            'customer_id',
+            'wallet_id',
+            'id',
+            'id',
         );
     }
 
@@ -89,10 +89,10 @@ class Customer extends Authenticatable
         return $this->hasManyThrough(
             WalletActivity::class,
             Wallet::class,
-            'customer_id',   // FK on wallets
-            'wallet_id',     // FK on wallet_activities
-            'id',            // PK on customers
-            'id',            // PK on wallets
+            'customer_id',
+            'wallet_id',
+            'id',
+            'id',
         );
     }
 
