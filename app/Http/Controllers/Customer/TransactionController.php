@@ -42,9 +42,9 @@ class TransactionController extends Controller
                 'data'       => TransactionResource::collection($transactions),
                 'pagination' => [
                     'current_page' => $transactions->currentPage(),
-                    'last_page'    => $transactions->lastPage(),
-                    'per_page'     => $transactions->perPage(),
-                    'total'        => $transactions->total(),
+                    'last_page' => $transactions->lastPage(),
+                    'per_page' => $transactions->perPage(),
+                    'total' => $transactions->total(),
                 ],
             ]);
         } catch (Exception $e) {
@@ -79,11 +79,11 @@ class TransactionController extends Controller
             [$transaction, $isNew] = Transaction::findOrCreateByIdempotencyKey(
                 $request->idempotency_key,
                 [
-                    'wallet_id'      => $wallet->id,
-                    'reference'      => Transaction::generateReference(),
-                    'type'           => 'top_up',
-                    'amount'         => $request->amount,
-                    'currency_code'  => $wallet->currency_code,
+                    'wallet_id' => $wallet->id,
+                    'reference' => Transaction::generateReference(),
+                    'type' => 'topup',
+                    'amount' => $request->amount,
+                    'currency_code' => $wallet->currency_code,
                     'payment_method' => $request->payment_method,
                 ]
             );
@@ -92,9 +92,9 @@ class TransactionController extends Controller
                 DB::rollBack();
 
                 return response()->json([
-                    'message'     => 'Duplicate request. Returning original result.',
+                    'message' => 'Duplicate request. Returning original result.',
                     'transaction' => new TransactionResource($transaction),
-                    'wallet'      => new WalletResource($wallet->fresh()),
+                    'wallet' => new WalletResource($wallet->fresh()),
                 ]);
             }
 
@@ -115,11 +115,11 @@ class TransactionController extends Controller
             $status = $paymentSucceeded ? 200 : 422;
 
             return response()->json([
-                'message'     => $paymentSucceeded
+                'message' => $paymentSucceeded
                     ? 'Top-up successful.'
                     : 'Top-up failed. Payment was declined.',
                 'transaction' => new TransactionResource($transaction->fresh()),
-                'wallet'      => new WalletResource($wallet->fresh()),
+                'wallet' => new WalletResource($wallet->fresh()),
             ], $status);
         } catch (Exception $e) {
             DB::rollBack();
