@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Route;
 Route::name('customer.')->group(function () {
 
     // Public Auth APIs
-    Route::post('register',        [AuthController::class, 'register'])->name('register');
-    Route::post('verify-otp',      [AuthController::class, 'verifyOtp'])->name('verify-otp');
-    Route::post('resend-otp',      [AuthController::class, 'resendOtp'])->name('resend-otp');
-    Route::post('login',           [AuthController::class, 'login'])->name('login');
+    Route::post('register', [AuthController::class, 'register'])->name('register');
+    Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
+    Route::post('resend-otp', [AuthController::class, 'resendOtp'])->name('resend-otp');
+    Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
 
     // Protected
@@ -23,8 +23,7 @@ Route::name('customer.')->group(function () {
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
         // Dashboard
-        Route::get('/dashboard',         [DashboardController::class, 'index']);
-        Route::get('/dashboard/wallets', [DashboardController::class, 'wallets']);
+        Route::get('/dashboard', [DashboardController::class, 'index']);
 
         Route::prefix('wallets')->group(function () {
             Route::get('/', [WalletController::class, 'index']);
@@ -35,9 +34,8 @@ Route::name('customer.')->group(function () {
 
             // Transactions
             Route::get('/transactions/{code}', [TransactionController::class, 'index']);
-            Route::post('/topup',       [TransactionController::class, 'topUp']);
-            Route::post('/transfer',       [TransactionController::class, 'transfer']);
-
+            Route::post('/topup', [TransactionController::class, 'topUp']);
+            Route::post('/transfer', [TransactionController::class, 'transfer']);
 
             Route::get('/{id}', [WalletController::class, 'show']);
         });
