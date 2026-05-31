@@ -33,14 +33,14 @@ class WalletActivity extends Model
     public static function recordFromTransaction(Transaction $transaction, string $description = ''): self
     {
         return static::create([
-            'wallet_id'      => $transaction->wallet_id,
+            'wallet_id' => $transaction->wallet_id,
             'transaction_id' => $transaction->id,
-            'type'           => $transaction->type,
-            'status'         => $transaction->status,
-            'amount'         => $transaction->amount,
-            'currency_code'  => $transaction->currency_code,
-            'description'    => $description ?: ucfirst(str_replace('_', ' ', $transaction->type)),
-            'created_at'     => now(),
+            'type' => $transaction->type,
+            'status' => $transaction->status,
+            'amount' => $transaction->amount,
+            'currency_code' => $transaction->currency_code,
+            'description' => $description ?: ucfirst(str_replace('_', ' ', $transaction->type)),
+            'created_at' => now(),
         ]);
     }
 
