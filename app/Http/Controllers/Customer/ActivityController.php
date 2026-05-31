@@ -16,13 +16,13 @@ class ActivityController extends Controller
      *
      * GET /api/wallet/activity
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, $code): JsonResponse
     {
         try {
             $customer = $request->user()->load('country');
 
             $wallet = $customer->wallets()
-                ->where('currency_code', $customer->country->currency_code)
+                ->where('currency_code', $code)
                 ->first();
 
             if (! $wallet) {
