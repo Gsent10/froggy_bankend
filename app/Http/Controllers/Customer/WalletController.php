@@ -88,11 +88,11 @@ class WalletController extends Controller
                 ], 404);
             }
 
-            $activities = $wallet->activities()->latest()->get();
+            $activities = $wallet->activities()->latest(10)->get();
 
             return response()->json([
                 'wallet' => new WalletResource($wallet),
-                'activities' => WalletActivityResource::collection($activities),
+                'logs' => WalletActivityResource::collection($activities),
             ]);
         } catch (Exception $e) {
             Log::error('Wallet details fetch failed: ' . $e->getMessage());
