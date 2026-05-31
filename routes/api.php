@@ -29,12 +29,16 @@ Route::name('customer.')->group(function () {
         Route::prefix('wallets')->group(function () {
             Route::get('/', [WalletController::class, 'index']);
             Route::post('/', [WalletController::class, 'create']);
-            Route::post('/activity', [ActivityController::class, 'index']);
+
+            // Activity
+            Route::get('/activity/{code}', [ActivityController::class, 'index']);
+
+            // Transactions
+            Route::get('/transactions/{code}', [TransactionController::class, 'index']);
+            Route::post('/topup',       [TransactionController::class, 'topUp']);
+
+
             Route::get('/{id}', [WalletController::class, 'show']);
         });
-
-        // Transactions
-        Route::get('/wallet/transactions', [TransactionController::class, 'index']);
-        Route::post('/wallet/topup',       [TransactionController::class, 'topUp']);
     });
 });
