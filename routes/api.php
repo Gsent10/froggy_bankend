@@ -39,5 +39,11 @@ Route::name('customer.')->group(function () {
 
             Route::get('/{id}', [WalletController::class, 'show']);
         });
+
+        // Transactions
+        Route::get('/transactions', [TransactionController::class, 'allTransactions']);
+
+        // activity
+        Route::get('/activity', [ActivityController::class, 'allActivity']);
     });
 });
