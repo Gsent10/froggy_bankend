@@ -41,9 +41,9 @@ Route::name('customer.')->group(function () {
         });
 
         // Transactions
-        Route::get('/transactions', [TransactionController::class, 'allTransactions']);
+        Route::get('/activity', [TransactionController::class, 'allTransactions']);
 
         // activity
-        Route::get('/activity', [ActivityController::class, 'allActivity']);
+        Route::get('/logs', [ActivityController::class, 'allActivity']);
     });
 });
