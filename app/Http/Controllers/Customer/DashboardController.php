@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\WalletResource;
+use App\Http\Resources\TransactionResource;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,19 +23,18 @@ class DashboardController extends Controller
         try {
             $customer = $request->user()->load('country');
 
-            $wallet = $customer->wallets()
-                ->where('currency_code', $customer->country->currency_code)
-                ->first();
+            $wallets = $customer->wallets()
+                ->get();
 
-            if (! $wallet) {
-                return response()->json([
-                    'message' => 'Wallet not found for this customer.',
-                ], 404);
-            }
+            $recentTransactions = $customer->transactions()
+                ->latest()
+                ->limit(5)
+                ->get();
 
             return response()->json([
                 'customer' => new CustomerResource($customer),
-                'wallet'   => new WalletResource($wallet),
+                'wallets'   => WalletResource::collection($wallets),
+                'recentTransactions' => TransactionResource::collection($recentTransactions),
             ]);
         } catch (Exception $e) {
             Log::error('Dashboard fetch failed: ' . $e->getMessage());
