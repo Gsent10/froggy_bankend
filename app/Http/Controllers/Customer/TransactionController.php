@@ -68,7 +68,7 @@ class TransactionController extends Controller
             $customer = $request->user()->load('country');
 
             $wallet = $customer->wallets()
-                ->where('currency_code', $customer->country->currency_code)
+                ->where('currency_code', $request->currency_code)
                 ->first();
 
             if (! $wallet) {
