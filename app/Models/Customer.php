@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -63,5 +64,44 @@ class Customer extends Authenticatable
     public function walletForCurrency(string $currencyCode): ?Wallet
     {
         return $this->wallets()->where('currency_code', $currencyCode)->first();
+    }
+
+    /**
+     * All transactions across all of this customer's wallets.
+     */
+    public function transactions(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Transaction::class,
+            Wallet::class,
+            'customer_id',   // FK on wallets
+            'wallet_id',     // FK on transactions
+            'id',            // PK on customers
+            'id',            // PK on wallets
+        );
+    }
+
+    /**
+     * All wallet activities across all of this customer's wallets.
+     */
+    public function walletActivities(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            WalletActivity::class,
+            Wallet::class,
+            'customer_id',   // FK on wallets
+            'wallet_id',     // FK on wallet_activities
+            'id',            // PK on customers
+            'id',            // PK on wallets
+        );
+    }
+
+    /**
+     * Transactions for a specific wallet (by currency).
+     */
+    public function transactionsForCurrency(string $currencyCode): HasManyThrough
+    {
+        return $this->transactions()
+            ->where('transactions.currency_code', $currencyCode);
     }
 }
