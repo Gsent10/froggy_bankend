@@ -14,7 +14,8 @@ class TopUpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount'         => ['required', 'numeric', 'min:1'],
+            'currency_code' => ['required', 'string', 'size:3'],
+            'amount' => ['required', 'numeric', 'min:1'],
             'payment_method' => ['required', 'string', 'in:card,bank_transfer,ussd'],
             'idempotency_key' => ['required', 'string', 'max:255'],
         ];
