@@ -84,7 +84,7 @@ class Customer extends Authenticatable
     /**
      * All wallet activities across all of this customer's wallets.
      */
-    public function walletActivities(): HasManyThrough
+    public function activities(): HasManyThrough
     {
         return $this->hasManyThrough(
             WalletActivity::class,
