@@ -36,6 +36,7 @@ Route::name('customer.')->group(function () {
             // Transactions
             Route::get('/transactions/{code}', [TransactionController::class, 'index']);
             Route::post('/topup',       [TransactionController::class, 'topUp']);
+            Route::post('/transfer',       [TransactionController::class, 'transfer']);
 
 
             Route::get('/{id}', [WalletController::class, 'show']);
