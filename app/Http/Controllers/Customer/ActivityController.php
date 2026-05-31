@@ -52,4 +52,33 @@ class ActivityController extends Controller
             ], 500);
         }
     }
+
+    public function allActivity(Request $request): JsonResponse
+    {
+        try {
+            $customer = $request->user()->load('country');
+
+
+
+            $activities = $customer->activities()
+                ->latest('created_at')
+                ->paginate($request->integer('per_page', 10));
+
+            return response()->json([
+                'data'       => WalletActivityResource::collection($activities),
+                'pagination' => [
+                    'current_page' => $activities->currentPage(),
+                    'last_page'    => $activities->lastPage(),
+                    'per_page'     => $activities->perPage(),
+                    'total'        => $activities->total(),
+                ],
+            ]);
+        } catch (Exception $e) {
+            Log::error('Activity fetch failed: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'Failed to load activity. Please try again later.',
+            ], 500);
+        }
+    }
 }
