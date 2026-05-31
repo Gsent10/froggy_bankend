@@ -58,6 +58,34 @@ class TransactionController extends Controller
         }
     }
 
+
+    public function allTransactions(Request $request): JsonResponse
+    {
+        try {
+            $customer = $request->user()->load('country');
+
+            $transactions = $customer->transactions()
+                ->latest()
+                ->paginate($request->integer('per_page', 10));
+
+            return response()->json([
+                'data'       => TransactionResource::collection($transactions),
+                'pagination' => [
+                    'current_page' => $transactions->currentPage(),
+                    'last_page' => $transactions->lastPage(),
+                    'per_page' => $transactions->perPage(),
+                    'total' => $transactions->total(),
+                ],
+            ]);
+        } catch (Exception $e) {
+            Log::error('Transaction list fetch failed: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'Failed to load transactions. Please try again later.',
+            ], 500);
+        }
+    }
+
     /**
      * Process a wallet top-up with idempotency protection.
      *
