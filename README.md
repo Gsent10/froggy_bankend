@@ -48,14 +48,3 @@ The API will be available at `http://127.0.0.1:8000`.
 ## Idempotency
 
 The top-up and transfer endpoints use an `idempotency_key` (UUID v4) to prevent duplicate financial operations. If the same key is sent twice, the second request returns the original transaction result without modifying the wallet balance. The Flutter app generates a fresh UUID per form load, so retries on network failure are safe.
-
----
-
-## What I Would Improve With More Time
-
-- Integrate a real payment gateway (Paystack or Flutterwave) to replace the mock
-- Add real-time exchange rates from an external FX API instead of static rates
-- Queue top-up processing via Laravel Jobs for better scalability
-- Add rate limiting on auth endpoints to prevent brute-force attacks
-- API versioning (`/api/v1/`) for safe future iterations
-- Full feature test coverage for all wallet operations
