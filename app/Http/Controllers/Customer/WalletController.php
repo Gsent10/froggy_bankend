@@ -45,10 +45,15 @@ class WalletController extends Controller
             'currency_code' => ['required', 'string', 'size:3'],
         ]);
 
+        if ($request->user()->wallets()->where('currency_code', $request->input('currency_code'))->exists()) {
+            return response()->json([
+                'message' => 'Wallet for this currency already exists.',
+            ], 400);
+        }
+
         try {
             $customer = $request->user();
 
-            // For simplicity, we create a wallet with the customer's country currency
             $wallet = $customer->wallets()->create([
                 'currency_code' => $request->input('currency_code'),
                 'balance' => 0,
